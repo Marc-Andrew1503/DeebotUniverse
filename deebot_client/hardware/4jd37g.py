@@ -71,6 +71,7 @@ from deebot_client.commands.json.voice_assistant_state import (
 )
 from deebot_client.commands.json.volume import GetVolume, SetVolume
 from deebot_client.commands.json.water_info import GetWaterInfo, SetWaterInfo
+from deebot_client.commands.json.work_mode import GetWorkMode, SetWorkMode
 from deebot_client.const import DataType
 from deebot_client.events import (
     AdvancedModeEvent,
@@ -103,6 +104,8 @@ from deebot_client.events import (
     TrueDetectEvent,
     VoiceAssistantStateEvent,
     VolumeEvent,
+    WorkMode,
+    WorkModeEvent,
     water_info,
 )
 from deebot_client.models import StaticDeviceInfo
@@ -130,6 +133,17 @@ def get_device_info() -> StaticDeviceInfo:
                 log=CapabilityEvent(CleanLogEvent, [GetCleanLogs()]),
                 preference=CapabilitySetEnable(
                     CleanPreferenceEvent, [GetCleanPreference()], SetCleanPreference
+                ),
+                work_mode=CapabilitySetTypes(
+                    event=WorkModeEvent,
+                    get=[GetWorkMode()],
+                    set=SetWorkMode,
+                    types=(
+                        WorkMode.MOP,
+                        WorkMode.MOP_AFTER_VACUUM,
+                        WorkMode.VACUUM,
+                        WorkMode.VACUUM_AND_MOP,
+                    ),
                 ),
             ),
             custom=CapabilityCustomCommand(
