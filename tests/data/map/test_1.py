@@ -12,7 +12,7 @@ from deebot_client.events.map import (
     Position,
     PositionsEvent,
 )
-from deebot_client.rs.map import PositionType
+from deebot_client.rs.map import PositionType, RotationAngle
 
 DEVICE_CLASS = "yna5xi"
 
@@ -100,12 +100,14 @@ EVENTS = [
                 name="Erdgeschoss",
                 using=True,
                 built=True,
+                angle=RotationAngle.DEG_0,
             ),
             Map(
                 id="722607162",
                 name="NO_NAME",
                 using=False,
                 built=False,
+                angle=RotationAngle.DEG_0,
             ),
         }
     ),
@@ -118,7 +120,9 @@ EVENTS = [
         index=26,
         value="XQAABAAQJwAAAABv/f//o7f/Rz5IFXI5YVG4kijmo4YH+e7kHoLTL8U6OwczrMl+5Cn+j6EvprKUdquBVZgFpQToAHLTz2AlAA==",
     ),
-    MapSetEvent(type=MapSetType.ROOMS, subsets=[5, 8, 10, 3, 4, 7, 9]),
+    MapSetEvent(
+        type=MapSetType.ROOMS, subsets=[5, 8, 10, 3, 4, 7, 9], map_id="1132127808"
+    ),
     MapSubsetEvent(
         id=0,
         type=MapSetType.VIRTUAL_WALLS,

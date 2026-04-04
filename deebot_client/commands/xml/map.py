@@ -11,6 +11,7 @@ from deebot_client.events.map import (
     MapSubsetEvent,
 )
 from deebot_client.message import HandlingResult, HandlingState
+from deebot_client.rs.map import RotationAngle
 
 from .common import XmlCommandWithMessageHandling
 
@@ -43,7 +44,17 @@ class GetMapSt(XmlCommandWithMessageHandling):
 
         built = st == "built"
         event_bus.notify(
-            CachedMapInfoEvent({Map(id="", name="", using=True, built=built)})
+            CachedMapInfoEvent(
+                {
+                    Map(
+                        id="",
+                        name="",
+                        using=True,
+                        built=built,
+                        angle=RotationAngle.DEG_0,
+                    )
+                }
+            )
         )
         return HandlingResult.success()
 
@@ -114,7 +125,9 @@ class GetMapSet(XmlCommandWithMessageHandling):
 
         xml_subsets = xml.findall("m")
         subsets = cls._find_subsets(xml_subsets)
-        event_bus.notify(MapSetEvent(MapSetType(area_type), subsets=subsets))
+        event_bus.notify(
+            MapSetEvent(MapSetType(area_type), subsets=subsets, map_id=msid)
+        )
         args = {
             cls._ARGS_MSID: msid,
             cls._ARGS_TYPE: area_type,

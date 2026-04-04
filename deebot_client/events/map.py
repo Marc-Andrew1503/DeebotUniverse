@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from enum import Enum, unique
+from enum import StrEnum, unique
 from typing import TYPE_CHECKING, Any
 
 from deebot_client.events import Event
@@ -11,7 +11,7 @@ from deebot_client.events import Event
 if TYPE_CHECKING:
     from datetime import datetime
 
-    from deebot_client.rs.map import PositionType
+    from deebot_client.rs.map import PositionType, RotationAngle
 
 
 @dataclass(frozen=True)
@@ -74,7 +74,7 @@ class MinorMapEvent(Event):
 
 
 @unique
-class MapSetType(str, Enum):
+class MapSetType(StrEnum):
     """Map set type enum."""
 
     ROOMS = "ar"
@@ -93,6 +93,7 @@ class MapSetEvent(Event):
 
     type: MapSetType
     subsets: list[int]
+    map_id: str
 
 
 @dataclass(frozen=True)
@@ -113,6 +114,7 @@ class Map:
     name: str
     using: bool
     built: bool
+    angle: RotationAngle
 
 
 @dataclass(frozen=True)

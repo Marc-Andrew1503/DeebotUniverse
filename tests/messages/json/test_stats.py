@@ -52,7 +52,8 @@ from tests.messages.json import assert_message
         ),
     ],
 )
-async def test_ReportStats(data: dict[str, Any], expected: ReportStatsEvent) -> None:
+@pytest.mark.benchmark
+def test_ReportStats(data: dict[str, Any], expected: ReportStatsEvent) -> None:
     data = {
         "header": {
             "pri": 1,
@@ -65,7 +66,7 @@ async def test_ReportStats(data: dict[str, Any], expected: ReportStatsEvent) -> 
         "body": {"data": data},
     }
 
-    await assert_message(ReportStats, data, (FirmwareEvent("1.8.2"), expected))
+    assert_message(ReportStats, data, (FirmwareEvent("1.8.2"), expected))
 
 
 @pytest.mark.parametrize(
@@ -119,7 +120,8 @@ async def test_ReportStats(data: dict[str, Any], expected: ReportStatsEvent) -> 
         ),
     ],
 )
-async def test_onStats(data: dict[str, Any], expected: StatsEvent) -> None:
+@pytest.mark.benchmark
+def test_onStats(data: dict[str, Any], expected: StatsEvent) -> None:
     data = {
         "header": {
             "pri": 1,
@@ -132,4 +134,4 @@ async def test_onStats(data: dict[str, Any], expected: StatsEvent) -> None:
         "body": {"data": data},
     }
 
-    await assert_message(OnStats, data, (FirmwareEvent("1.8.2"), expected))
+    assert_message(OnStats, data, (FirmwareEvent("1.8.2"), expected))
