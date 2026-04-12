@@ -9,6 +9,7 @@ from deebot_client.commands.json import GetCleanInfo
 from deebot_client.commands.json.clean import (
     Clean,
     CleanArea,
+    CleanAreaFree,
     CleanAreaV2,
     CleanV2,
     GetCleanInfoV2,
@@ -136,10 +137,14 @@ async def test_Clean_act(
                 },
             },
         ),
+        (
+            CleanAreaFree(CleanMode.SPOT_AREA, [5, 8]),
+            {"act": "start", "content": {"type": "freeClean", "value": "5,8"}},
+        ),
     ],
-    ids=["Rooms", "Rooms V2", "Coordinates", "Coordinates V2"],
+    ids=["Rooms", "Rooms V2", "Coordinates", "Coordinates V2", "Rooms freeClean"],
 )
 async def test_CleanArea(
-    command: CleanArea | CleanAreaV2, args: dict[str, str]
+    command: CleanArea | CleanAreaV2 | CleanAreaFree, args: dict[str, str]
 ) -> None:
     await assert_execute_command(command, args)

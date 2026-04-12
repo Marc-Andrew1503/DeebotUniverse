@@ -108,6 +108,26 @@ class CleanAreaV2(CleanV2):
         return args
 
 
+class CleanAreaFree(CleanV2):
+    """Clean area command using freeClean type.
+
+    Required by devices that reject spotArea (e.g. DEEBOT X5 OMNI e6yxdm).
+    """
+
+    def __init__(self, mode: CleanMode, area: list[int | float], _: int = 1) -> None:
+        self._additional_content: dict[str, Any] = {
+            "type": "freeClean",
+            "value": ",".join(str(int(r)) for r in area),
+        }
+        super().__init__(CleanAction.START)
+
+    def _get_args(self, action: CleanAction) -> dict[str, Any]:
+        args = super()._get_args(action)
+        if action == CleanAction.START:
+            args["content"].update(self._additional_content)
+        return args
+
+
 class GetCleanInfo(JsonCommandWithMessageHandling, MessageBodyDataDict):
     """Get clean info command."""
 
